@@ -53,6 +53,7 @@ public final class Crypter {
         mac.update(pswdBuffer);
         mac.update(dataBuffer);
         mac.update(saltBuffer);
+        mac.update(ByteBuffer.allocate(4).putInt(chunkSize).array());
         System.arraycopy(
                 mac.getFinal(macBuffer.length), 0, macBuffer, 0, macBuffer.length);
     }
@@ -66,6 +67,7 @@ public final class Crypter {
         mac.update(pswdBuffer);
         mac.update(dataBuffer);
         mac.update(saltBuffer);
+        mac.update(ByteBuffer.allocate(4).putInt(chunkSize).array());
         byte[] macValue = mac.getFinal(macBuffer.length);
 
         if (!MessageDigest.isEqual(macValue, macBuffer)) {

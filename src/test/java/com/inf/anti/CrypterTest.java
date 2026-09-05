@@ -142,4 +142,17 @@ class CrypterTest {
         assertThrows(IllegalArgumentException.class, () -> new Crypter(0));
         assertThrows(IllegalArgumentException.class, () -> new Crypter(-1));
     }
+
+    @Test
+    void mismatchedChunkSizeFails() {
+        byte[] plain = "chunk size binding".getBytes(StandardCharsets.UTF_8);
+        byte[] salt = bytes(32);
+        byte[] mac = bytes(32);
+
+        Crypter enc = new Crypter(1 << 20);
+        enc.encryption(PASSWORD, plain, salt, mac);
+
+        Crypter dec = new Crypter(1 << 18);
+        assertThrows(Error.class, () -> dec.decryption(PASSWORD, plain, salt, mac));
+    }
 }
