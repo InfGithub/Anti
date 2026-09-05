@@ -7,6 +7,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HexFormat;
 
+import com.inf.anti.crypt.Crypter;
+import com.inf.anti.runtime.Logger;
+import com.inf.anti.util.CatastrophicError;
+
 public class Main {
 
     static {
@@ -14,6 +18,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
+        if (System.console() == null) {
+            throw new CatastrophicError("Plaintext input has been leaked");
+        }
         if (args.length < 1) {
             System.out.println("Usage: -e (encrypt) | -d (decrypt)");
             return;
@@ -64,11 +71,7 @@ public class Main {
 
     private static String readPassword(String prompt) throws Exception {
         Console console = System.console();
-        if (console != null) {
-            char[] chars = console.readPassword(prompt);
-            return new String(chars);
-        }
-        System.out.print(prompt);
-        return new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8)).readLine();
+        char[] chars = console.readPassword(prompt);
+        return new String(chars);
     }
 }

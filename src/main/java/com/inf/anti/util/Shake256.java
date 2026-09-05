@@ -1,4 +1,4 @@
-package com.inf.anti;
+package com.inf.anti.util;
 
 import java.util.Objects;
 

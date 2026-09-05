@@ -1,8 +1,12 @@
-package com.inf.anti;
+package com.inf.anti.crypt;
 
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.util.Arrays;
+
+import com.inf.anti.util.CatastrophicError;
+import com.inf.anti.util.RandomSource;
+import com.inf.anti.util.Shake256;
 
 public final class Crypter {
 
@@ -77,12 +81,5 @@ public final class Crypter {
             throw new CatastrophicError("Data has been tampered with");
         }
         cryption(pswdBuffer, dataBuffer, saltBuffer);
-    }
-
-    private static final class CatastrophicError extends Error {
-
-        public CatastrophicError(String message) {
-            super(message);
-        }
     }
 }
